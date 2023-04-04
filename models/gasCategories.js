@@ -1,12 +1,16 @@
 import mongoose from "mongoose";
 
 const gasCategoriesModel = mongoose.Schema({
-    typeName:{
+    gasName:{
         type:String,
-        required:true
+        required:true,
+        unique:true
     },
-    typeImage:{
+    gasImage:{
         type:String,
         required:true
     }
 })
+
+const gasCategories = mongoose.model("Categories", gasCategoriesModel)
+export default gasCategories

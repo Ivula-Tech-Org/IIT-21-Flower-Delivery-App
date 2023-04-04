@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
-const gassModel = mongoose.Schema({
-    gasName: {
+const AccModel = mongoose.Schema({
+    AccName: {
         type: String,
         required: true,
         ref:'Categories'
@@ -11,20 +11,12 @@ const gassModel = mongoose.Schema({
         required:true,
         ref:'GassStation'
     },
-    gasService:{
+    AccService:{
         type:String,
         required:true
     },
-    gasPrice: {
+    AccPrice: {
         type: String,
-        required: true
-    },
-    weightRange: {
-        type: {
-            base: Number,
-            largest: Number
-        },
-        default: { base: 0, largest: 0 },
         required: true
     },
     deliveryTime: {
@@ -34,6 +26,6 @@ const gassModel = mongoose.Schema({
 
 })
 
-const gass = mongoose.model("Gass", gassModel)
+const Acc = mongoose.model("Accesories", AccModel)
 
-export default gass
+export default Acc

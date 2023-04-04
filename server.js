@@ -32,7 +32,7 @@ socket.on("disconnected", ()=>{
 
 app.use(cors())
 app.use(process.env.AUTH_SERVICE_URL,auth_service)
-app.use(process.env.FRONT_END_SERVICE,front_end_services)
+app.use(process.env.FRONT_END_SERVICE,validation,front_end_services)
 
 
 connectDB()

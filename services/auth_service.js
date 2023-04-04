@@ -149,7 +149,7 @@ auth_service.get('/login', async (req, res, next) => {
                 if (getUsersCall != null) {
                     getUsersCall = getUsersCall.toObject()
 
-                    let token = jwt.sign(getUsersCall, process.env.JWT_ENC_KEY, {expiresIn:"1m"})
+                    let token = jwt.sign(getUsersCall, process.env.JWT_ENC_KEY, {expiresIn:"15m"})
                     // console.log(userPosted)
                     res.status(200).json({ token: token })
 

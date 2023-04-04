@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 
-const gassStationModeel = mongoose.Schema({
+const gassStationModel = mongoose.Schema({
+    stationOwner:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Contractors",
+        required:true
+    },
     stationName: {
         type: String,
         required: true
@@ -11,10 +16,7 @@ const gassStationModeel = mongoose.Schema({
         default: 0
     },
     stationLocation: {
-        type: {
-            city: String,
-            town: String
-        },
+        type: String,
         required: true
     },
     gasCategories: {
@@ -24,9 +26,10 @@ const gassStationModeel = mongoose.Schema({
     },
     stationImage: {
         type: String,
-        required: true
+        required: true,
+        default:''
     }
 })
 
-const gassStations = mongoose.model("GassStation", gassStationModeel)
-export default gassStations
+const gassStations = mongoose.model("GassStation", gassStationModel)
+export  {gassStations}
