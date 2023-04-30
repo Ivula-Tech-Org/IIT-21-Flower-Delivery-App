@@ -14,6 +14,7 @@ const jwtConfig = (payload, key) => {
     let token = jwt.sign(payload, key)
     return token
 }
+//register a contractor/user
 auth_service.post('/', async (req, res, next) => {
     if (req.query.type != 'contractor') {
         try {
@@ -112,7 +113,7 @@ auth_service.post('/', async (req, res, next) => {
     }
 })
 
-//for private login
+//authenticate contractor/user
 auth_service.get('/login', async (req, res, next) => {
     if (req.query.type != 'contractor') {
         const { userEmail, password } = req.query
