@@ -1,15 +1,14 @@
-import { postUser } from "../models/userModel.js"
 import { logDate } from "./../globals/globals.js"
-import { messages } from "../models/messageModel.js"
-class chatService {
+import { notification } from "../models/notifyModel.js"
+class notifyService {
     constructor() {
-        console.log(`${logDate} | Server Logs |Chat Service | status : Initiated | Chat Service initiated`)
+        console.log(`${logDate} | Server Logs |Notifications Service | status : Initiated | Notifications Service initiated`)
     }
 
     async postMessage(data) {
         const { message, clientID, contID } = data
 
-        const postSMS = new messages({
+        const postSMS = new notification({
             message: message,
             clientID: clientID,
             contID: contID
@@ -20,7 +19,7 @@ class chatService {
             return saveSMS
 
         } catch (err) {
-    console.log(`${logDate} | Chat Service | Saving Messages | Messages could not be saved | Error :  ${err}`)
+    console.log(`${logDate} | Notifications Service | Saving Messages | Messages could not be saved | Error :  ${err}`)
             
 
         }
@@ -29,16 +28,16 @@ class chatService {
     async getMessage(data) {
         const {clientID,contID}=data
         try {
-            const getSMS = await messages.find({clientID:data.clientID, contID:data.contID})
+            const getSMS = await notification.find({clientID:data.clientID, contID:data.contID})
             let room = {roomID: clientID + "_" + contID, messages:getSMS}
             return room
         } catch (error) {
-    console.log(`${logDate} | Chat Service | Saving Retrieval | Messages could not be retrieved | Error :  ${err}`)
+    console.log(`${logDate} | Notifications Service | Saving Retrieval | Messages could not be retrieved | Error :  ${err}`)
 
         }
     }
 
 }
 
-export default chatService
+export default notifyService
 

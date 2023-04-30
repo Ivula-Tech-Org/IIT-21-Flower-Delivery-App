@@ -8,6 +8,8 @@ function App() {
   const [message, setMessage] = useState("")
   const [recieved, setRecieved] = useState("No message yet")
   const [room, setRoom] = useState()
+  const [allMessagees, setAllMessages]= useState()
+
   const sendMessage = () => {
     try {
 
@@ -19,11 +21,15 @@ function App() {
     }
   }
   const joinRoom = () => {
-    socket.emit("join_room", '6425772bba67d55d9c79271d_6425a00dad9c1f93f703053a')
+    socket.emit("join_room", {clientID:'6425772bba67d55d9c79271d', contID:'6425a00dad9c1f93f703053a'})
   }
   useEffect(() => {
     socket.on("recieve_message", (data) => {
       setRecieved(data.message)
+    })
+    socket.on("all_messages",(data)=>{
+      setAllMessages(data)
+      console.log(data)
     })
   }, [socket])
   return (
