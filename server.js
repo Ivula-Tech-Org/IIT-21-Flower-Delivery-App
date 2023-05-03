@@ -13,6 +13,8 @@ import { userCount } from './globals/globals.js';
 import chatService from './services/chat_service.js';
 import notifyService from './services/notification_service.js';
 import socketioJwt from 'socketio-jwt'
+import orderService from './services/order_service.js';
+import bodyParser from 'body-parser';
 let userCounter = 0
 
 envConfig.config()
@@ -22,6 +24,7 @@ const router = express.Router()
 const chat_service = new chatService()
 const notify_service = new notifyService()
 app.use(cors())
+app.use(bodyParser.json())
 
 const server = http.createServer(app)
 const testLog = (served) => {
@@ -31,6 +34,7 @@ const testLog = (served) => {
 app.use(process.env.AUTH_SERVICE_URL, auth_service)
 app.use(process.env.FRONT_END_SERVICE, validation, front_end_services)
 app.use(process.env.UPDT_SERVICE_URL, validation, update_service)
+app.use(process.env.ORDERS_SERVICE_URL, orderService)
 
 connectDB()
 

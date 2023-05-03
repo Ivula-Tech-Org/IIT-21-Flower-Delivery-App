@@ -4,12 +4,13 @@ const gassModel = mongoose.Schema({
     gasName: {
         type: String,
         required: true,
-        ref:'Categories'
+        ref:'Categories',
     },
     gassStationName:{
         type:mongoose.Schema.Types.ObjectId,
         required:true,
-        ref:'GassStation'
+        ref:'GassStation',
+        cascade:'delete'
     },
     gasService:{
         type:String,

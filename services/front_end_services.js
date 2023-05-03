@@ -95,7 +95,7 @@ front_end_service.post('/gasService', async (req, res) => {
             console.log(`${logDate} | Front End Service | Gas Services Requests | status ${res.statusCode} : ${res.statusMessage} | Added Service Succesfuly for station name: ${clientDetails.userName || clientDetails.contName}`)
 
         } catch (err) {
-            res.status(201).json({ token: req.user.token, data: "Ann error occured, Kindly try again later" })
+            res.status(201).json({ token: req.user.token, data: "An error occured, Kindly try again later" })
             console.log(`${logDate} | Front End Service | Gas Services Requests | status ${res.statusCode} : ${res.statusMessage} | Added Service Failed for station name: ${clientDetails.userName || clientDetails.contName} : ${err}`)
 
 

@@ -4,6 +4,7 @@ const gassStationModel = mongoose.Schema({
     stationOwner:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Contractors",
+        cascade:'delete',
         required:true
     },
     stationName: {
