@@ -34,7 +34,7 @@ const testLog = (served) => {
 app.use(process.env.AUTH_SERVICE_URL, auth_service)
 app.use(process.env.FRONT_END_SERVICE, validation, front_end_services)
 app.use(process.env.UPDT_SERVICE_URL, validation, update_service)
-app.use(process.env.ORDERS_SERVICE_URL, orderService)
+app.use(process.env.ORDERS_SERVICE_URL, validation,orderService)
 
 connectDB()
 
