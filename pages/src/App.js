@@ -21,11 +21,12 @@ function App() {
     }
   }
   const joinRoom = () => {
-    socket.emit("join_room", {clientID:'6425772bba67d55d9c79271d', contID:'6425a00dad9c1f93f703053a'})
+    socket.emit("join_room", 'room')
   }
   useEffect(() => {
     socket.on("recieve_message", (data) => {
       setRecieved(data.message)
+      console.log(data)
     })
     socket.on("all_messages",(data)=>{
       setAllMessages(data)
