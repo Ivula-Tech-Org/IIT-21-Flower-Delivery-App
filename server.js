@@ -56,15 +56,14 @@ io.on('connection', (socket, data) => {
 
     //Chat services
     socket.on('join_room', async(data) => {
-        let roomData = await chat_service.getMessage(data)
-        socket.join(roomData.roomID)
-
-        socket.emit("all_messages", roomData.messages)
+        // let roomData = await chat_service.getMessage(data)
+        socket.join(data)
+        console.log(data)
     })
     socket.on('send_message', async (data) => {
-        const emitData = await chat_service.postMessage(data)
-        // console.log(emitData)
-        socket.to(data.clientID + '_' + data.contID).emit('recieve_message', emitData)
+        //const emitData = await chat_service.postMessage(data)
+        console.log(data.message)
+        socket.to(data.room).emit('recieve_message', data.message)
 
     })
 
