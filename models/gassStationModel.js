@@ -14,7 +14,7 @@ const gassStationModel = mongoose.Schema({
     stationRating: {
         type: Number,
         required: true,
-        default: 0
+        default: 3
     },
     stationLocation: {
         type: String,
