@@ -16,7 +16,8 @@ const jwtConfig = (payload, key) => {
 }
 //register a contractor/user
 auth_service.post('/', async (req, res, next) => {
-    if (req.query.type != 'contractor') {
+    if  (req.query.type != 'contractor') {
+        console.log(req.query)
         try {
             const { userName, password, userEmail, phoneNumber } = req.query
             if (userName && password && userEmail && phoneNumber) {
@@ -25,7 +26,7 @@ auth_service.post('/', async (req, res, next) => {
 
                 getMail.then(async (response) => {
                     if (response.length > 0) {
-                        res.status(201).json({ token: "The email provided is already taken" })
+                        res.status(404).json({ token: "The email provided is already taken" })
                         console.error(`${logDate} | Authentication Service | User SignUp Request | status ${res.statusCode} : ${res.statusMessage} | The email : ${userEmail} : is already taken`)
                     } else {
 
@@ -34,13 +35,13 @@ auth_service.post('/', async (req, res, next) => {
                             userName: userName,
                             phoneNumber: phoneNumber,
                             password: password,
-                            location: ""
+                            location: {lat:"",long:""}
                         })
                         try {
                             const userPosted = (await postUserCall.save()).toObject()
                             let token = jwt.sign(userPosted, process.env.JWT_ENC_KEY, {expiresIn:"3d"})
                             // console.log(userPosted)
-                            res.status(201).json({ token: token })
+                            res.status(200).json({ token: token })
                             console.error(`${logDate} | Authentication Service | User SignUp Request | status ${res.statusCode} : ${res.statusMessage = 201 ? 'Sucess' : res.statusMessage} | userName : ${userName} userEmail ${userEmail} userPhone : ${phoneNumber}`)
                         } catch (err) {
                             res.status(500).json({ token: "Something went wrong kindly try again" })
@@ -124,16 +125,16 @@ auth_service.get('/login', async (req, res, next) => {
                     getUsersCall = getUsersCall.toObject()
                     let token = jwt.sign(getUsersCall, process.env.JWT_ENC_KEY, { expiresIn: "3d" })
                     // console.log(userPosted)
-                    res.status(200).json({ token: token })
+                    res.json({ token: token })
                     console.log(`${logDate} | Authentication Service |User Login Request | status ${res.statusCode} : ${res.statusMessage} | ${userEmail}`)
                 } else {
-                    res.status(404).json({ token: 'user not found' })
+                    res.status(404).json({ token: 'Failed user not found' })
                     console.log(`${logDate} | Authentication Service |User Login Request | status ${res.statusCode} : ${res.statusMessage} | Could not find user :  ${userEmail}`)
 
 
                 }
             } catch (err) {
-                res.status(500).json({ token: "Something went wrong try again" })
+                res.json({ token: "Something went wrong try again" })
                 console.log(`${logDate} | Authentication Service |User Login Request | status ${res.statusCode} : ${res.statusMessage} | Could not get user : ${userEmail} :  from the DB`)
             }
 
@@ -156,7 +157,7 @@ auth_service.get('/login', async (req, res, next) => {
 
                     console.log(`${logDate} | Authentication Service | Contractor Login Request | status ${res.statusCode} : ${res.statusMessage} | ${userEmail}`)
                 } else {
-                    res.status(404).json({ token: 'user not found' })
+                    res.status(404).json({ token: 'Failed user not found' })
                     console.log(`${logDate} | Authentication Service | Contractor Login Request | status ${res.statusCode} : ${res.statusMessage} | Could not find user :  ${userEmail}`)
 
 
@@ -169,6 +170,7 @@ auth_service.get('/login', async (req, res, next) => {
         } else {
             res.status(400).json({ token: "Login Failed : Kindly fill in all the fields" })
             console.error(`${logDate} | Authentication Service | Contractor  Login Request | status ${res.statusCode} : ${res.statusMessage} | User din't provid all the params`)
+            console.log(req)
         }
     }
 })

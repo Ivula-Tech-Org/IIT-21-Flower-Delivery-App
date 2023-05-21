@@ -4,6 +4,7 @@ import { logDate } from './globals.js';
 const validation = async (req, res, next) => {
         let token;
         let authHead = req.headers.authorization
+        console.log('auth',authHead)
         token = jwt.verify(authHead, process.env.JWT_ENC_KEY, (err, decoded) => {
             if (err) {
                 res.status(401).json({ token: "Unauthorized request, kindly log in again" })

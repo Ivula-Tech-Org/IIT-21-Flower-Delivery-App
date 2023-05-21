@@ -15,6 +15,7 @@ import notifyService from './services/notification_service.js';
 import socketioJwt from 'socketio-jwt'
 import orderService from './services/order_service.js';
 import bodyParser from 'body-parser';
+import postLocation from './services/post_location.js';
 let userCounter = 0
 
 envConfig.config()
@@ -35,6 +36,7 @@ app.use(process.env.AUTH_SERVICE_URL, auth_service)
 app.use(process.env.FRONT_END_SERVICE, validation, front_end_services)
 app.use(process.env.UPDT_SERVICE_URL, validation, update_service)
 app.use(process.env.ORDERS_SERVICE_URL, validation,orderService)
+app.use(process.env.GET_LOCATION, validation,postLocation)
 
 connectDB()
 
@@ -85,7 +87,7 @@ io.on('connection', (socket, data) => {
 })
 
 app.get('/liveProb', (req, res) => {
-    res.status(200).json({ title: "Server Live Prob", status: "live" })
+    res.json({ title: "Server Live Prob", status: "live" })
     console.log(`${logDate} | Service Request | status ${res.statusCode} : ${res.statusMessage} | live prob`)
 })
 app.use(express.static('pages'))
