@@ -35,7 +35,8 @@ auth_service.post('/', async (req, res, next) => {
                             userName: userName,
                             phoneNumber: phoneNumber,
                             password: password,
-                            location: {lat:"",long:""}
+                            location: {lat:"",long:""},
+                            tier:'contractor'
                         })
                         try {
                             const userPosted = (await postUserCall.save()).toObject()
@@ -81,7 +82,8 @@ auth_service.post('/', async (req, res, next) => {
                             contName: userName,
                             contPhone: phoneNumber,
                             password: password,
-                            location: ""
+                            location: {lat:"",long:""},
+                            tier:'client'
                         })
                         try {
                             const userPosted = (await postUserCall.save()).toObject()

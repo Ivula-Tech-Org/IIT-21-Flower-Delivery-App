@@ -13,6 +13,17 @@ const ordersModel = new mongoose.Schema({
         ref: 'Users',
         cascade:'delete'
     },
+    orderStatus :{
+        level:{
+            type:String,
+            required:true,
+            default:"Order"
+        },
+        done:{
+            type:Boolean,
+            required:true
+        },
+    },
     item: {
         itemTier: {
             type: String,
@@ -25,6 +36,10 @@ const ordersModel = new mongoose.Schema({
                 return this.item.itemTier
             },
             cascade:'delete'
+        },
+        ItemPrice : {
+            type:String,
+            default:"0"
         }
 
     }

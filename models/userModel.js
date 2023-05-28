@@ -29,6 +29,10 @@ const postUserModel = mongoose.Schema({
             ,
             required: false
         },
+    },
+    tier:{
+        type:String,
+        required:true
     }
 })
 const postUser = mongoose.model('Users', postUserModel)
