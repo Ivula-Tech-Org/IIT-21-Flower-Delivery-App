@@ -5,12 +5,12 @@ import jwt from 'jsonwebtoken';
 import gass from '../models/gassModel.js';
 import  json  from 'body-parser';
 import Acc from '../models/accesoriesModel.js';
+import gasCategories from '../models/gasCategories.js';
 const front_end_service = express.Router();
 
 front_end_service.get('/', async (req, res) => {
     //get gass stations for the home page
     const clientDetails = jwt.decode(req.user.token)
-    // console.log('user details ', clientDetails.contName || clientDetails.userName)
     try {
 
         const gasStationsData = await gassStations.find()
@@ -23,21 +23,40 @@ front_end_service.get('/', async (req, res) => {
     }
 
 })
+
+front_end_service.get('/categories', async (req, res) => {
+    //get gass categories for the home page
+    const clientDetails = jwt.decode(req.user.token)
+    try {
+
+        const gasCategData = await gasCategories.find()
+        res.status(200).json({ token: req.user.token, data: gasCategData })
+        console.log(`${logDate} | Front End Service | Gas Categories Requests | status ${res.statusCode} : ${res.statusMessage} | Request stations approved for : ${clientDetails.userName || clientDetails.contName} : ${clientDetails.userEmail || clientDetails.contEmail}`)
+    } catch (err) {
+        res.status(500).json({ token: "Internal server error, kindly try later" })
+        console.log(`${logDate} | Front End Service | Gas Categories Requests | status ${res.statusCode} : ${res.statusMessage} | Request failed for : ${clientDetails.userName || clientDetails.contName} : ${clientDetails.userEmail || clientDetails.contEmail}`)
+
+    }
+
+})
+
 front_end_service.post('/addStation', async (req, res) => {
     const clientDetails = jwt.decode(req.user.token)
-    const { stationOwner, stationName, stationLocation, gasCategories, stationImage } = req.query
+    const { stationOwner, estDel,stationName, town,stationLocation, gasCategories, stationImage } = req.query
     if (stationOwner && stationName && stationLocation) {
         const postStation = new gassStations({
             stationOwner: stationOwner,
             stationName: stationName,
             stationLocation: stationLocation,
             gasCategories: gasCategories,
-            stationImage: stationImage
+            stationImage: stationImage, 
+            estDel:estDel,
+            town:town
         })
         try {
             const savePostStation = (await postStation.save()).toObject()
             const clientDetails = jwt.decode(req.user.token)
-            res.status(200).json({token:clientDetails,data:savePostStation})
+            res.status(200).json({token:req.user.token,data:savePostStation})
             console.log(`${logDate} | Front End Service | Gas Station Requests | status ${res.statusCode} : ${res.statusMessage} | Added Station Succesfuly for station name: ${stationName}`)
 
         } catch (err) {
@@ -52,13 +71,13 @@ front_end_service.post('/addStation', async (req, res) => {
 
 front_end_service.get('/gasService', async(req, res) => {
     const clientDetails = jwt.decode(req.user.token)
-    const {gassStationName} = req.query
-
-    if(gassStationName){
+    const {stationId} = req.query
+    console.log('queyr id is ', stationId)
+    if(stationId){
         
         try {
             
-        const getGasService = await gass.find({gassStationName:gassStationName})
+        const getGasService = await gass.find({gassStationName:stationId})
         res.status(200).json({token:req.user.token, data:getGasService})
         console.log(`${logDate} | Front End Service | Gas Services Requests | status ${res.statusCode} : ${res.statusMessage} | Request Gass Services approved for : ${clientDetails.userName || clientDetails.contName}`)
 
@@ -110,18 +129,16 @@ front_end_service.post('/gasService', async (req, res) => {
 
 front_end_service.get('/AccService', async(req, res) => {
     const clientDetails = jwt.decode(req.user.token)
-    const {gassStationName} = req.query
+    const {stationId} = req.query
 
-    if(gassStationName){
+    if(stationId){
         try {
-            console.log(gassStationName)
             
-        const getGasService = await Acc.find({gassStationName:gassStationName})
+        const getGasService = await Acc.find({gassStationName:stationId})
         res.status(200).json({token:req.user.token, data:getGasService})
         console.log(`${logDate} | Front End Service | Gas Services Requests | status ${res.statusCode} : ${res.statusMessage} | Request Gass Services approved for : ${clientDetails.userName || clientDetails.contName}`)
 
         } catch (err) {
-            console.log(gassStationName)
             res.status(500).json({ token: req.user.token, data: "An error occured try again later" })
             console.log(`${logDate} | Front End Service | Gas Services Requests | status ${res.statusCode} : ${res.statusMessage} | Get Service Failed for station name: ${clientDetails.userName || clientDetails.contName} : ${err}`)
 

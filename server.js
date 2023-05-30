@@ -33,7 +33,7 @@ const testLog = (served) => {
 }
 //middlewares
 app.use(process.env.AUTH_SERVICE_URL, auth_service)
-app.use(process.env.FRONT_END_SERVICE, validation, front_end_services)
+app.use(process.env.FRONT_END_SERVICE,validation, front_end_services)
 app.use(process.env.UPDT_SERVICE_URL, validation, update_service)
 app.use(process.env.ORDERS_SERVICE_URL, validation,orderService)
 app.use(process.env.GET_LOCATION, validation,postLocation)
@@ -56,7 +56,7 @@ io.on('connection', (socket, data) => {
     console.log(`${logDate} | Server Logs |Chat Service | status : Healthy | connection added, total : ${userCounter}`)
 
 
-    //Chat services
+    //Chat servicesj
     socket.on('join_room', async(data) => {
         // let roomData = await chat_service.getMessage(data)
         socket.join(data)

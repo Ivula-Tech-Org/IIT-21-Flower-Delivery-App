@@ -21,7 +21,7 @@ const contractorModel = mongoose.Schema({
     },
     Image:{
         type:String,
-        required:true,
+        required:false,
         default:''
     }
 })

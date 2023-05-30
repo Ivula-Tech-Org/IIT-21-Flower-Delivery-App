@@ -17,8 +17,15 @@ const gassStationModel = mongoose.Schema({
         default: 3
     },
     stationLocation: {
-        type: String,
-        required: true
+        lat:{
+            type:String,
+            required:true
+        }
+        ,
+        long:{
+            type:String,
+            required:true
+        }
     },
     gasCategories: {
         type: [String],
@@ -29,6 +36,14 @@ const gassStationModel = mongoose.Schema({
         type: String,
         required: true,
         default:''
+    }, 
+    town:{
+        type:String,
+        required:true
+    },
+    estDel:{
+        type:String,
+        required:true
     }
 })
 

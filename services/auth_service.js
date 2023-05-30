@@ -17,13 +17,13 @@ const jwtConfig = (payload, key) => {
 //register a contractor/user
 auth_service.post('/', async (req, res, next) => {
     if  (req.query.type != 'contractor') {
-        console.log(req.query)
+
         try {
-            const { userName, password, userEmail, phoneNumber } = req.query
-            if (userName && password && userEmail && phoneNumber) {
+
+            const { userName, password ,userEmail, phoneNumber } = req.query
+            if (userName && password &&  userEmail && phoneNumber) {
 
                 const getMail = postUser.find({ userEmail: userEmail })
-
                 getMail.then(async (response) => {
                     if (response.length > 0) {
                         res.status(404).json({ token: "The email provided is already taken" })
@@ -36,7 +36,7 @@ auth_service.post('/', async (req, res, next) => {
                             phoneNumber: phoneNumber,
                             password: password,
                             location: {lat:"",long:""},
-                            tier:'contractor'
+                            tier:'client'
                         })
                         try {
                             const userPosted = (await postUserCall.save()).toObject()
@@ -46,7 +46,7 @@ auth_service.post('/', async (req, res, next) => {
                             console.error(`${logDate} | Authentication Service | User SignUp Request | status ${res.statusCode} : ${res.statusMessage = 201 ? 'Sucess' : res.statusMessage} | userName : ${userName} userEmail ${userEmail} userPhone : ${phoneNumber}`)
                         } catch (err) {
                             res.status(500).json({ token: "Something went wrong kindly try again" })
-                            console.log(err)
+                            // console.log(err)
                             console.error(`${logDate} | Authentication Service | User SignUp Request | status ${res.statusCode} : ${res.statusMessage} | Could not add user to the database`)
 
                         }
@@ -60,12 +60,13 @@ auth_service.post('/', async (req, res, next) => {
             }
 
         } catch (err) {
+            console.log(' here boro')
             res.status(401).json({ token: 'Could not action your request, try again' })
             console.error(`${logDate} | Authentication Service | User SignUp Request | status ${res.statusCode} : ${res.statusMessage} | Request body very empty`)
 
         }
     } else {
-        try {
+            try {
             const { userName, password, userEmail, phoneNumber } = req.query
             if (userName && password && userEmail && phoneNumber) {
 
@@ -73,7 +74,7 @@ auth_service.post('/', async (req, res, next) => {
                 // console.log("contracto")
                 getMail.then(async (response) => {
                     if (response.length > 0) {
-                        res.status(201).json({ token: "The email provided is already taken" })
+                        res.status(200).json({ token: "The email provided is already taken" })
                         console.error(`${logDate} | Authentication Service | Contractor SignUp Request | status ${res.statusCode} : ${res.statusMessage} | The email : ${userEmail} : is already taken`)
                     } else {
 
@@ -82,14 +83,15 @@ auth_service.post('/', async (req, res, next) => {
                             contName: userName,
                             contPhone: phoneNumber,
                             password: password,
+                            // Image:'',
                             location: {lat:"",long:""},
-                            tier:'client'
+                            tier:'contractor'
                         })
                         try {
                             const userPosted = (await postUserCall.save()).toObject()
-                            let token = jwt.sign(userPosted, process.env.JWT_ENC_KEY, {expiresIn:"2m"})
+                            let token = jwt.sign(userPosted, process.env.JWT_ENC_KEY, {expiresIn:"3d"})
                             // console.log(userPosted)
-                            res.status(201).json({ token: token })
+                            res.status(200).json({ token: token })
                             console.error(`${logDate} | Authentication Service | Contractor SignUp Request | status ${res.statusCode} : ${res.statusMessage = 201 ? 'Sucess' : res.statusMessage} | userName : ${userName} userEmail ${userEmail} userPhone : ${phoneNumber}`)
                         } catch (err) {
                             res.status(500).json({ token: "Something went wrong kindly try again" })
@@ -153,7 +155,7 @@ auth_service.get('/login', async (req, res, next) => {
                 if (getUsersCall != null) {
                     getUsersCall = getUsersCall.toObject()
 
-                    let token = jwt.sign(getUsersCall, process.env.JWT_ENC_KEY, {expiresIn:"15m"})
+                    let token = jwt.sign(getUsersCall, process.env.JWT_ENC_KEY, {expiresIn:"3d"})
                     // console.log(userPosted)
                     res.status(200).json({ token: token })
 

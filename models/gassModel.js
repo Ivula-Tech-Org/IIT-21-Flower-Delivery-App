@@ -21,16 +21,19 @@ const gassModel = mongoose.Schema({
         required: true
     },
     weightRange: {
-        type: {
+        type:[{
             base: Number,
             largest: Number
-        },
-        default: { base: 0, largest: 0 },
+        }],
         required: true
     },
     deliveryTime: {
         type: String,
         required: true
+    },
+    gassImage:{
+        type:String,
+        required:true
     }
 
 })
