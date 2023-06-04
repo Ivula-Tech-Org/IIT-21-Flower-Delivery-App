@@ -3,6 +3,7 @@ import { logDate } from './globals.js';
 
 const validation = async (req, res, next) => {
         let token;
+        console.log(req.headers)
         let authHead = req.headers.authorization
         console.log('auth',authHead, req.headers)
         token = jwt.verify(authHead, process.env.JWT_ENC_KEY, (err, decoded) => {

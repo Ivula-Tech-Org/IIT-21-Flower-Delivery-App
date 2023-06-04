@@ -13,6 +13,10 @@ const messageModel = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         required:true
     }
+    ,Tier:{
+        type:String,
+        required:true
+    }
 })
 
 const messages = mongoose.model('Messages', messageModel)

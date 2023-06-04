@@ -42,7 +42,7 @@ front_end_service.get('/categories', async (req, res) => {
 
 front_end_service.post('/addStation', async (req, res) => {
     const clientDetails = jwt.decode(req.user.token)
-    const { stationOwner, estDel,stationName, town,stationLocation, gasCategories, stationImage } = req.query
+    const { stationOwner, estDel,stationName, phoneNumber,town,stationLocation, gasCategories, stationImage } = req.query
     if (stationOwner && stationName && stationLocation) {
         const postStation = new gassStations({
             stationOwner: stationOwner,
@@ -51,7 +51,8 @@ front_end_service.post('/addStation', async (req, res) => {
             gasCategories: gasCategories,
             stationImage: stationImage, 
             estDel:estDel,
-            town:town
+            town:town,
+            phoneNumber:phoneNumber
         })
         try {
             const savePostStation = (await postStation.save()).toObject()
@@ -65,6 +66,7 @@ front_end_service.post('/addStation', async (req, res) => {
 
         }
     } else {
+        console.log(req.query)
         console.log('fields empty')
     }
 })

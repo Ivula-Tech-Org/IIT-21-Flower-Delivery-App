@@ -7,12 +7,13 @@ class chatService {
     }
 
     async postMessage(data) {
-        const { message, clientID, contID } = data
+        const { message, clientID, contID,Tier } = data
 
         const postSMS = new messages({
             message: message,
             clientID: clientID,
             contID: contID
+            ,Tier:Tier
         })
 
         try {
@@ -30,7 +31,8 @@ class chatService {
         const {clientID,contID}=data
         try {
             const getSMS = await messages.find({clientID:data.clientID, contID:data.contID})
-            let room = {roomID: clientID + "_" + contID, messages:getSMS}
+            let room = {roomID: clientID + "_" + contID, messages:getSMS.reverse()}
+
             return room
         } catch (error) {
     console.log(`${logDate} | Chat Service | Saving Retrieval | Messages could not be retrieved | Error :  ${err}`)

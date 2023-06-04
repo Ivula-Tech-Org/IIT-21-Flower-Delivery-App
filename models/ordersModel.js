@@ -24,24 +24,52 @@ const ordersModel = new mongoose.Schema({
             required:true
         },
     },
-    item: {
-        itemTier: {
-            type: String,
-            required:true
-        },
-        itemID: {
-            type:mongoose.Schema.Types.ObjectId,
-            required:[true, 'The item you requested does not exist'],
-            ref:function(){
-                return this.item.itemTier
-            },
-            cascade:'delete'
-        },
-        ItemPrice : {
+    item:{
+        type:mongoose.Schema.Types.ObjectId,
+        required:true, 
+        
+    },
+    name:{
+        type:String, 
+        require:true
+    }, 
+    town:{
+        type:String,
+        required:true
+    },
+    price:{
+        type:String,
+        required:true
+    },
+    size:{
+        type:String,
+        required:true
+    },
+    estTime:{
+        type:String,
+        required:true
+    },
+    location:{
+        lat:{
             type:String,
-            default:"0"
+            requried:true
+        },
+        long:{
+            type:String,
+            required:true
         }
-
+    },
+    image:{
+        type:String,
+        required:true
+    },
+    service:{
+        type:String,
+        required:true
+    },
+    phoneNumber:{
+        type:String,
+        required:true
     }
 })
 

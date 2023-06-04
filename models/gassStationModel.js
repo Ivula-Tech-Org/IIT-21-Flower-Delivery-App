@@ -44,8 +44,26 @@ const gassStationModel = mongoose.Schema({
     estDel:{
         type:String,
         required:true
+    },
+    phoneNumber:{
+        type:String,
+        required:true
     }
 })
 
 const gassStations = mongoose.model("GassStation", gassStationModel)
 export  {gassStations}
+
+
+// service: selected.service,
+// item: selected._id,
+// name:selected.name,
+// image:selected.image,
+// station: station._id,
+// client: user._id,
+// town: station.town,
+// rating: station.stationRating,
+// price: price ? price : selected.weightRange[0].price,
+// size: size ? size : selected.weightRange[0].price,
+// estTime : selected.deliveryTime,
+// location : st
