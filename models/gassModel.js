@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
 const gassModel = mongoose.Schema({
-    gasName: {
+    name: {
         type: String,
         required: true,
         ref:'Categories',
@@ -12,26 +12,24 @@ const gassModel = mongoose.Schema({
         ref:'GassStation',
         cascade:'delete'
     },
-    gasService:{
+    service:{
         type:String,
         required:true
     },
-    gasPrice: {
-        type: String,
-        required: true
-    },
     weightRange: {
-        type:[{
-            base: Number,
-            largest: Number
-        }],
-        required: true
+        type:[
+            {
+                size:String,
+                price:String
+            }
+        ],
+
     },
     deliveryTime: {
         type: String,
         required: true
     },
-    gassImage:{
+    image:{
         type:String,
         required:true
     }

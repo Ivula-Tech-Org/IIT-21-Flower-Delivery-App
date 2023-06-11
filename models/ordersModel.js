@@ -70,6 +70,10 @@ const ordersModel = new mongoose.Schema({
     phoneNumber:{
         type:String,
         required:true
+    },
+    Date:{
+        type:Date,
+        default:Date.now
     }
 })
 

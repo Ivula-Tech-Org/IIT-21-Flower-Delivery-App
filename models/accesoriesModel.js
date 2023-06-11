@@ -1,31 +1,34 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
 const AccModel = mongoose.Schema({
-    AccName: {
-        type: String,
-        required: true,
-        ref:'Categories'
-    },
-    gassStationName:{
-        type:mongoose.Schema.Types.ObjectId,
-        required:true,
-        ref:'GassStation'
-    },
-    AccService:{
-        type:String,
-        required:true
-    },
-    AccPrice: {
-        type: String,
-        required: true
-    },
-    deliveryTime: {
-        type: String,
-        required: true
-    }
+  name: {
+    type: String,
+    required: true,
+    ref: "Categories",
+  },
+  gassStationName: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "GassStation",
+  },
+  service: {
+    type: String,
+    required: true,
+  },
+  price: {
+    type: String,
+    required: true,
+  },
+  weightRange: {
+    type: String,
+    required: true,
+  },
+  image: {
+    type: String,
+    required: true,
+  },
+});
 
-})
+const Acc = mongoose.model("Accesories", AccModel);
 
-const Acc = mongoose.model("Accesories", AccModel)
-
-export default Acc
+export default Acc;
