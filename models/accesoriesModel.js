@@ -10,16 +10,21 @@ const AccModel = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: "GassStation",
+    cascade: "delete",
   },
   service: {
     type: String,
     required: true,
   },
-  price: {
-    type: String,
-    required: true,
-  },
   weightRange: {
+    type: [
+      {
+        size: String,
+        price: String,
+      },
+    ],
+  },
+  deliveryTime: {
     type: String,
     required: true,
   },

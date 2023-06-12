@@ -90,13 +90,12 @@ front_end_service.post("/addStation", async (req, res) => {
         `${logDate} | Front End Service | Gas Station Requests | status ${res.statusCode} : ${res.statusMessage} | Added Station Succesfuly for station name: ${stationName}`
       );
     } catch (err) {
-      res
-        .status(500)
-        .json({
-          token: req.user.token,
-          data: "Internal server Error, kindly try later",
-        });
+      res.status(500).json({
+        token: req.user.token,
+        data: "Internal server Error, kindly try later",
+      });
       console.error(
+        console.log(err)
         `${logDate} | Front End Service | Gas Station Requests | status ${res.statusCode} : ${res.statusMessage} | Request Failed to get DB`
       );
     }
@@ -122,12 +121,10 @@ front_end_service.get("/gasService", async (req, res) => {
         }`
       );
     } catch (err) {
-      res
-        .status(501)
-        .json({
-          token: req.user.token,
-          data: "An error occured, kindly try again later",
-        });
+      res.status(501).json({
+        token: req.user.token,
+        data: "An error occured, kindly try again later",
+      });
       console.log(
         `${logDate} | Front End Service | Gas Services Requests | status ${
           res.statusCode
@@ -138,7 +135,7 @@ front_end_service.get("/gasService", async (req, res) => {
     }
   } else {
     res
-      .status(201)
+      .status(404)
       .json({ token: req.user.token, data: "Kindly provide all the fields" });
     console.log(
       `${logDate} | Front End Service | Gas Services Requests | status ${
@@ -150,9 +147,33 @@ front_end_service.get("/gasService", async (req, res) => {
   }
 });
 
+front_end_service.get("/search", async (req, res) => {
+  const clientDetails = jwt.decode(req.user.token);
+  try {
+    const getGasService = await gass.find();
+    const getAccService = await Acc.find();
+
+    res.status(200).json({ token: req.user.token, gass: getGasService, acc:getAccService });
+
+    console.log(
+      `${logDate} | Front End Service | Gas Services Requests | status ${
+        res.statusCode
+      } : ${res.statusMessage} | Request Gass Services approved for : ${
+        clientDetails.userName || clientDetails.contName
+      }`
+    );
+  } catch (err) {
+    res.status(501).json({
+      token: req.user.token,
+      data: "An error occured, kindly try again later",
+    });
+    console.log('here is ithe error',err)
+  }
+});
+
 front_end_service.get("/gasService/user_service", async (req, res) => {
   const clientDetails = jwt.decode(req.user.token);
-  const stationId = "6426cf6969e9bdf9f6f7188d";
+  const stationId = clientDetails._id;
   console.log("queyr id is ", stationId);
   if (stationId) {
     try {
@@ -168,12 +189,10 @@ front_end_service.get("/gasService/user_service", async (req, res) => {
         }`
       );
     } catch (err) {
-      res
-        .status(501)
-        .json({
-          token: req.user.token,
-          data: "An error occured, kindly try again later",
-        });
+      res.status(501).json({
+        token: req.user.token,
+        data: "An error occured, kindly try again later",
+      });
       console.log(
         `${logDate} | Front End Service | Gas Services Requests | status ${
           res.statusCode
@@ -183,10 +202,54 @@ front_end_service.get("/gasService/user_service", async (req, res) => {
       );
     }
   } else {
-    clientDetailsclientDetailclientDetailss;
-    clientDetailsclientDetaclientDetailsils;
     res
-      .status(201)
+      .status(404)
+      .json({ token: req.user.token, data: "Kindly provide all the fields" });
+    console.log(
+      `${logDate} | Front End Service | Gas Services Requests | status ${
+        res.statusCode
+      } : ${res.statusMessage} | User did not provide all the fields : ${
+        clientDetails.userName || clientDetails.contName
+      }`
+    );
+  }
+});
+
+
+front_end_service.get("/gasService/gass_service", async (req, res) => {
+  const clientDetails = jwt.decode(req.user.token);
+  const {gassId} = req.query
+  const stationId = gassId;
+  console.log("queyr id is for gas ", stationId);
+  if (stationId) {
+    try {
+      const getGasService = await gassStations.findOne({
+        _id: new Types.ObjectId(stationId),
+      });
+      res.status(200).json({ token: req.user.token, data: getGasService });
+      console.log(
+        `${logDate} | Front End Service | Gas Services Requests | status ${
+          res.statusCode
+        } : ${res.statusMessage} | Request Gass Services approved for : ${
+          clientDetails.userName || clientDetails.contName
+        }`
+      );
+    } catch (err) {
+      res.status(501).json({
+        token: req.user.token,
+        data: "An error occured, kindly try again later",
+      });
+      console.log(
+        `${logDate} | Front End Service | Gas Services Requests | status ${
+          res.statusCode
+        } : ${res.statusMessage} | Get Service Failed for station name: ${
+          clientDetails.userName || clientDetails.contName
+        } : ${err}`
+      );
+    }
+  } else {
+    res
+      .status(404)
       .json({ token: req.user.token, data: "Kindly provide all the fields" });
     console.log(
       `${logDate} | Front End Service | Gas Services Requests | status ${
@@ -199,6 +262,7 @@ front_end_service.get("/gasService/user_service", async (req, res) => {
 });
 
 front_end_service.post("/gasService", async (req, res) => {
+  console.log('came from here, gasser')
   const clientDetails = jwt.decode(req.user.token);
   const { name, service, weightRange, deliveryTime, gassStationName, image } =
     req.query;
@@ -223,12 +287,10 @@ front_end_service.post("/gasService", async (req, res) => {
         }`
       );
     } catch (err) {
-      res
-        .status(400)
-        .json({
-          token: req.user.token,
-          data: "An error occured, Kindly try again later",
-        });
+      res.status(400).json({
+        token: req.user.token,
+        data: "An error occured, Kindly try again later",
+      });
       console.log(
         `${logDate} | Front End Service | Gas Services Requests | status ${
           res.statusCode
@@ -267,12 +329,10 @@ front_end_service.get("/AccService", async (req, res) => {
         }`
       );
     } catch (err) {
-      res
-        .status(500)
-        .json({
-          token: req.user.token,
-          data: "An error occured try again later",
-        });
+      res.status(500).json({
+        token: req.user.token,
+        data: "An error occured try again later",
+      });
       console.log(
         `${logDate} | Front End Service | Gas Services Requests | status ${
           res.statusCode
@@ -283,7 +343,7 @@ front_end_service.get("/AccService", async (req, res) => {
     }
   } else {
     res
-      .status(201)
+      .status(400)
       .json({ token: req.user.token, data: "Kindly provide all the fields" });
     console.log(
       `${logDate} | Front End Service | Gas Services Requests | status ${
@@ -296,11 +356,11 @@ front_end_service.get("/AccService", async (req, res) => {
 });
 front_end_service.post("/AccService", async (req, res) => {
   const clientDetails = jwt.decode(req.user.token);
-  // console.log(req.user)
+  console.log('came from here, Accservice')
   const { name, service, weightRange, deliveryTime, gassStationName, image } =
     req.query;
   if ((name && service && weightRange && deliveryTime, image)) {
-    const postGasServices = new gass({
+    const postGasServices = new Acc({
       name: name,
       service: service,
       weightRange: weightRange,
@@ -320,12 +380,10 @@ front_end_service.post("/AccService", async (req, res) => {
         }`
       );
     } catch (err) {
-      res
-        .status(201)
-        .json({
-          token: req.user.token,
-          data: "An error occured, kindly try again later",
-        });
+      res.status(404).json({
+        token: req.user.token,
+        data: "An error occured, kindly try again later",
+      });
       console.log(
         `${logDate} | Front End Service | Gas Services Requests | status ${
           res.statusCode
@@ -336,7 +394,7 @@ front_end_service.post("/AccService", async (req, res) => {
     }
   } else {
     res
-      .status(201)
+      .status(404)
       .json({ token: req.user.token, data: "Kindly provide all the fields" });
     console.log(
       `${logDate} | Front End Service | Gas Services Requests | status ${
