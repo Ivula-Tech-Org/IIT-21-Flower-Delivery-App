@@ -59,6 +59,7 @@ io.on("connection", (socket, data) => {
 
   //Chat servicesj
   socket.on("join_room", (room) => {
+    console.log('someone joined room')
     socket.join(room);
   });
   socket.on("ret_message", async (data) => {

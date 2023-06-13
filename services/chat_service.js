@@ -28,6 +28,7 @@ class chatService {
 
     }
     async getMessage(data) {
+        console.log('getting data here')
         const {clientID,contID}=data
         try {
             const getSMS = await messages.find({clientID:data.clientID, contID:data.contID})

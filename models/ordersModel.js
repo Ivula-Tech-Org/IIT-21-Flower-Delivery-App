@@ -21,7 +21,8 @@ const ordersModel = new mongoose.Schema({
         },
         done:{
             type:Boolean,
-            required:true
+            required:true,
+            default:false
         },
     },
     item:{
@@ -74,6 +75,10 @@ const ordersModel = new mongoose.Schema({
     Date:{
         type:Date,
         default:Date.now
+    }
+    ,gasCategories:{
+        type:String,
+        required:true
     }
 })
 
