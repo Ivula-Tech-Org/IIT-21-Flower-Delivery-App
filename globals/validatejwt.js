@@ -15,7 +15,7 @@ const validation = async (req, res, next) => {
                 const duration = req.query.type =='contractor' ?"10m":"3d"
                 delete decoded.exp
                 delete decoded.iat
-                const newToken = jwt.sign(decoded, process.env.JWT_ENC_KEY, { expiresIn: duration })
+                const newToken = jwt.sign(decoded, process.env.JWT_ENC_KEY)
                 req.user = { token: newToken }
                 // console.log("valid " ,req.user)
                 // res.user({ userDetails: decoded, token:newToken })

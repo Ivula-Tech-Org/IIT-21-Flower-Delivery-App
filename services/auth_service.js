@@ -105,9 +105,7 @@ auth_service.post("/", async (req, res, next) => {
             });
             try {
               const userPosted = (await postUserCall.save()).toObject();
-              let token = jwt.sign(userPosted, process.env.JWT_ENC_KEY, {
-                expiresIn: "3d",
-              });
+              let token = jwt.sign(userPosted, process.env.JWT_ENC_KEY);
               // console.log(userPosted)
               res.status(200).json({ token: token, id: userPosted._id });
               console.error(
@@ -160,9 +158,7 @@ auth_service.get("/login", async (req, res, next) => {
         });
         if (getUsersCall != null) {
           getUsersCall = getUsersCall.toObject();
-          let token = jwt.sign(getUsersCall, process.env.JWT_ENC_KEY, {
-            expiresIn: "3d",
-          });
+          let token = jwt.sign(getUsersCall, process.env.JWT_ENC_KEY);
           // console.log(userPosted)
           res.json({ token: token });
           console.log(
@@ -200,9 +196,7 @@ auth_service.get("/login", async (req, res, next) => {
         if (getUsersCall != null) {
           getUsersCall = getUsersCall.toObject();
 
-          let token = jwt.sign(getUsersCall, process.env.JWT_ENC_KEY, {
-            expiresIn: "3d",
-          });
+          let token = jwt.sign(getUsersCall, process.env.JWT_ENC_KEY);
           // console.log(userPosted)
           res.status(200).json({ token: token });
 
