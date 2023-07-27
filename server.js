@@ -37,6 +37,9 @@ app.use(process.env.FRONT_END_SERVICE, validation, front_end_services);
 app.use(process.env.UPDT_SERVICE_URL, validation, update_service);
 app.use(process.env.ORDERS_SERVICE_URL, validation, orderService);
 app.use(process.env.GET_LOCATION, validation, postLocation);
+app.use(process.env.GET_FORGOT, (req, res)=>{
+  res.send('handle forgot password in mail')
+});
 
 connectDB();
 

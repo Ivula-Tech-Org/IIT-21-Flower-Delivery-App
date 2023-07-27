@@ -22,6 +22,8 @@ auth_service.post("/", async (req, res, next) => {
       const { userName, password, userEmail, phoneNumber } = req.query;
       if (userName && password && userEmail && phoneNumber) {
         const getMail = postUser.find({ userEmail: userEmail });
+      let hash = crypto.createHash('md5').update(password).digest('hex')
+
         getMail.then(async (response) => {
           if (response.length > 0) {
             res
@@ -35,7 +37,7 @@ auth_service.post("/", async (req, res, next) => {
               userEmail: userEmail,
               userName: userName,
               phoneNumber: phoneNumber,
-              password: password,
+              password: hash,
               location: { lat: "", long: "" },
               tier: "client",
             });
@@ -84,7 +86,7 @@ auth_service.post("/", async (req, res, next) => {
       const { userName, password, userEmail, phoneNumber } = req.query;
       if (userName && password && userEmail && phoneNumber) {
         const getMail = postUser.find({ userEmail: userEmail });
-        // console.log("contracto")
+      let hash = crypto.createHash('md5').update(password).digest('hex')
         getMail.then(async (response) => {
           if (response.length > 0) {
             res
@@ -98,7 +100,7 @@ auth_service.post("/", async (req, res, next) => {
               userEmail: userEmail,
               userName: userName,
               phoneNumber: phoneNumber,
-              password: password,
+              password: hash,
               // Image:'',
               location: { lat: "", long: "" },
               tier: "contractor",
