@@ -22,7 +22,7 @@ auth_service.post("/", async (req, res, next) => {
       const { userName, password, userEmail, phoneNumber } = req.query;
       if (userName && password && userEmail && phoneNumber) {
         const getMail = postUser.find({ userEmail: userEmail });
-      let hash = crypto.createHash('md5').update(password).digest('hex')
+        let hash = crypto.createHash('md5').update(password).digest('hex')
 
         getMail.then(async (response) => {
           if (response.length > 0) {
@@ -47,8 +47,7 @@ auth_service.post("/", async (req, res, next) => {
               // console.log(userPosted)
               res.status(200).json({ token: token });
               console.error(
-                `${logDate} | Authentication Service | User SignUp Request | status ${
-                  res.statusCode
+                `${logDate} | Authentication Service | User SignUp Request | status ${res.statusCode
                 } : ${(res.statusMessage = 201
                   ? "Sucess"
                   : res.statusMessage)} | userName : ${userName} userEmail ${userEmail} userPhone : ${phoneNumber}`
@@ -73,7 +72,6 @@ auth_service.post("/", async (req, res, next) => {
         );
       }
     } catch (err) {
-      console.log(" here boro");
       res
         .status(401)
         .json({ token: "Could not action your request, try again" });
@@ -86,7 +84,7 @@ auth_service.post("/", async (req, res, next) => {
       const { userName, password, userEmail, phoneNumber } = req.query;
       if (userName && password && userEmail && phoneNumber) {
         const getMail = postUser.find({ userEmail: userEmail });
-      let hash = crypto.createHash('md5').update(password).digest('hex')
+        let hash = crypto.createHash('md5').update(password).digest('hex')
         getMail.then(async (response) => {
           if (response.length > 0) {
             res
@@ -111,8 +109,7 @@ auth_service.post("/", async (req, res, next) => {
               // console.log(userPosted)
               res.status(200).json({ token: token, id: userPosted._id });
               console.error(
-                `${logDate} | Authentication Service | Contractor SignUp Request | status ${
-                  res.statusCode
+                `${logDate} | Authentication Service | Contractor SignUp Request | status ${res.statusCode
                 } : ${(res.statusMessage = 201
                   ? "Sucess"
                   : res.statusMessage)} | userName : ${userName} userEmail ${userEmail} userPhone : ${phoneNumber}`
@@ -153,6 +150,9 @@ auth_service.get("/login", async (req, res, next) => {
     const { userEmail, password } = req.query;
     if (userEmail && password) {
       let hash = crypto.createHash('md5').update(password).digest('hex')
+      
+      console.log('here is the hash, ', hash)
+      console.log('here is the pass, ', password)
       try {
         let getUsersCall = await postUser.findOne({
           userEmail: userEmail,
@@ -190,6 +190,8 @@ auth_service.get("/login", async (req, res, next) => {
     const { userEmail, password } = req.query;
     if (userEmail && password) {
       let hash = crypto.createHash('md5').update(password).digest('hex')
+      console.log('here is the hash, ', hash)
+      console.log('here is the pass, ', password)
       try {
         let getUsersCall = await postUser.findOne({
           contEmail: userEmail,
