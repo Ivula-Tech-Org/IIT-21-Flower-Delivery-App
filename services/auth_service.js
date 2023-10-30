@@ -23,6 +23,9 @@ auth_service.post("/", async (req, res, next) => {
       if (userName && password && userEmail && phoneNumber) {
         const getMail = postUser.find({ userEmail: userEmail });
         let hash = crypto.createHash('md5').update(password).digest('hex')
+        console.log('here is the query, ', req.query)
+      console.log('here is the hash, ', hash)
+      console.log('here is the pass, ', password)
 
         getMail.then(async (response) => {
           if (response.length > 0) {
@@ -85,6 +88,10 @@ auth_service.post("/", async (req, res, next) => {
       if (userName && password && userEmail && phoneNumber) {
         const getMail = postUser.find({ userEmail: userEmail });
         let hash = crypto.createHash('md5').update(password).digest('hex')
+        console.log('here is the query, ', req.query)
+        
+      console.log('here is the hash, ', hash)
+      console.log('here is the pass, ', password)
         getMail.then(async (response) => {
           if (response.length > 0) {
             res
